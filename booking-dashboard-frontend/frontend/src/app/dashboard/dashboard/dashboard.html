@@ -1,0 +1,65 @@
+<div class="dashboard">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2><i class="fas fa-calendar-alt"></i> <span>BookingPro</span></h2>
+        </div>
+        
+        <ul class="nav-links">
+            <li>
+                <a href="#" [class.active]="activeSection === 'calendar'" 
+                   (click)="setActiveSection('calendar'); $event.preventDefault()">
+                    <i class="fas fa-calendar-week"></i> <span>Calendrier</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" [class.active]="activeSection === 'reservations'"
+                   (click)="setActiveSection('reservations'); $event.preventDefault()">
+                    <i class="fas fa-list-check"></i> <span>Réservations</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" [class.active]="activeSection === 'stats'"
+                   (click)="setActiveSection('stats'); $event.preventDefault()">
+                    <i class="fas fa-chart-pie"></i> <span>Statistiques</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" (click)="openNewReservationModal(); $event.preventDefault()">
+                    <i class="fas fa-plus-circle"></i> <span>Nouvelle Réservation</span>
+                </a>
+            </li>
+        </ul>
+        
+        <div class="user-info">
+            <div class="user-email">{{ currentUser?.email || 'Utilisateur' }}</div>
+            <button class="logout-btn" (click)="logout()">
+                <i class="fas fa-sign-out-alt"></i> <span>Déconnexion</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="dashboard-header">
+            <h1>Dashboard Réservations</h1>
+            <div class="header-actions">
+                <button class="btn-primary" (click)="openNewReservationModal()">
+                    <i class="fas fa-plus"></i> Nouvelle Réservation
+                </button>
+            </div>
+        </header>
+
+        <!-- Sections dynamiques -->
+        <div [ngSwitch]="activeSection">
+            <!-- Calendrier -->
+            <app-calendar *ngSwitchCase="'calendar'"></app-calendar>
+            
+            <!-- Réservations -->
+            <app-reservations-list *ngSwitchCase="'reservations'"></app-reservations-list>
+            
+            <!-- Statistiques -->
+            <app-statistics *ngSwitchCase="'stats'"></app-statistics>
+        </div>
+    </main>
+</div>

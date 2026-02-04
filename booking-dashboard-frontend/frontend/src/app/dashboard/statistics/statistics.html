@@ -1,0 +1,89 @@
+<div class="statistics-container">
+    <h2>Statistiques d'utilisation</h2>
+    
+    <!-- Loading -->
+    <div *ngIf="isLoading" class="loading">
+        <i class="fas fa-spinner fa-spin"></i> Chargement des statistiques...
+    </div>
+
+    <!-- No stats -->
+    <div *ngIf="!isLoading && stats.length === 0" class="no-stats">
+        <i class="fas fa-chart-line"></i>
+        <h3>Aucune statistique disponible</h3>
+        <p>Créez des réservations pour générer des statistiques</p>
+    </div>
+
+    <!-- Stats cards -->
+    <div *ngIf="!isLoading && stats.length > 0" class="stats-content">
+        <div class="stats-cards">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3>Heures totales</h3>
+                <div class="stat-value">{{ totalStats.hours.toFixed(1) }}h</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i> 12% vs mois dernier
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <h3>Réservations</h3>
+                <div class="stat-value">{{ totalStats.reservations }}</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i> 5% vs mois dernier
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Taux d'occupation</h3>
+                <div class="stat-value">{{ totalStats.occupation.toFixed(1) }}%</div>
+                <div class="stat-change">
+                    <i class="fas fa-equals"></i> Stable
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-user-clock"></i>
+                </div>
+                <h3>Durée moyenne</h3>
+                <div class="stat-value">{{ totalStats.avgDuration.toFixed(1) }}h</div>
+                <div class="stat-change negative">
+                    <i class="fas fa-arrow-down"></i> 2% vs mois dernier
+                </div>
+            </div>
+        </div>
+
+        <!-- Monthly stats -->
+        <div class="monthly-stats">
+            <h3>Statistiques mensuelles</h3>
+            <div class="stats-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mois</th>
+                            <th>Heures</th>
+                            <th>Réservations</th>
+                            <th>Durée moyenne</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let month of stats">
+                            <td>{{ month.month }}</td>
+                            <td>{{ month.total_hours?.toFixed(1) || '0' }}h</td>
+                            <td>{{ month.total_reservations || 0 }}</td>
+                            <td>{{ month.avg_duration?.toFixed(1) || '0' }}h</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

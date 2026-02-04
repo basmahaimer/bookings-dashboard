@@ -1,0 +1,32 @@
+<div class="calendar-container">
+    <div class="calendar-controls">
+        <button class="btn-secondary" (click)="prevMonth()">
+            <i class="fas fa-chevron-left"></i> Précédent
+        </button>
+        <h2>{{ currentDate | date:'MMMM yyyy' }}</h2>
+        <button class="btn-secondary" (click)="nextMonth()">
+            Suivant <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+    
+    <div class="calendar-info">
+        <h3>Calendrier des réservations</h3>
+        <div *ngIf="reservations.length === 0" class="no-data">
+            <i class="fas fa-calendar-plus"></i>
+            <p>Aucune réservation pour le moment</p>
+            <button class="btn-primary">
+                <i class="fas fa-plus"></i> Créer une réservation
+            </button>
+        </div>
+        
+        <div *ngIf="reservations.length > 0" class="reservations-summary">
+            <p><strong>{{ reservations.length }}</strong> réservation(s) au total</p>
+            <div class="reservations-list">
+                <div *ngFor="let reservation of reservations" class="reservation-item">
+                    <strong>{{ reservation.title }}</strong>
+                    <small>{{ reservation.start_date | date:'dd/MM/yyyy HH:mm' }} - {{ reservation.end_date | date:'dd/MM/yyyy HH:mm' }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,89 @@
+<div class="calendar-view-modal">
+  <div class="modal-header">
+    <h2>Vue Calendrier</h2>
+    <button class="close-btn" (click)="onClose()">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <div class="calendar-controls">
+    <button class="btn-icon" (click)="prevMonth()">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    <h3>{{ getCurrentMonth() }}</h3>
+    <button class="btn-icon" (click)="nextMonth()">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+  </div>
+
+  <div class="calendar-container">
+    <div class="weekdays">
+      <div class="weekday" *ngFor="let day of weekdays">{{ day }}</div>
+    </div>
+    
+    <div class="calendar-grid">
+      <div *ngFor="let day of calendarDays" 
+           [class]="getDayClasses(day)"
+           (click)="selectDay(day)">
+        <div class="day-number">{{ day.day || '' }}</div>
+        <div *ngIf="!day.isEmpty && day.reservations.length > 0" class="day-indicator">
+          <div class="reservation-dot"></div>
+          <span class="reservation-count">{{ day.reservations.length }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-details" *ngIf="selectedDay">
+    <h4>{{ formatDate(selectedDay.date) }}</h4>
+    
+    <div *ngIf="selectedDay.reservations.length === 0" class="no-reservations-day">
+      <i class="fas fa-calendar-plus"></i>
+      <p>Aucune réservation pour ce jour</p>
+      <button class="btn-primary" (click)="onNewReservation()">
+        <i class="fas fa-plus"></i> Ajouter une réservation
+      </button>
+    </div>
+
+    <div *ngIf="selectedDay.reservations.length > 0" class="day-reservations">
+      <div class="reservations-header">
+        <span>{{ selectedDay.reservations.length }} réservation(s)</span>
+        <button class="btn-primary btn-small" (click)="onNewReservation()">
+          <i class="fas fa-plus"></i> Ajouter
+        </button>
+      </div>
+
+      <div class="reservations-list">
+        <div *ngFor="let reservation of selectedDay.reservations" class="reservation-item">
+          <div class="reservation-info">
+            <h5>{{ reservation.title }}</h5>
+            <span class="status-badge" [class]="getStatusClass(reservation.status)">
+              {{ getStatusText(reservation.status) }}
+            </span>
+          </div>
+          
+          <div class="reservation-time">
+            <i class="fas fa-clock"></i>
+            {{ formatTime(reservation.start_date) }} - {{ formatTime(reservation.end_date) }}
+            <span class="duration">({{ getDuration(reservation.start_date, reservation.end_date) }})</span>
+          </div>
+          
+          <div *ngIf="reservation.description" class="reservation-description">
+            {{ reservation.description }}
+          </div>
+          
+          <div class="reservation-actions">
+            <button class="btn-icon" (click)="onEditReservation(reservation)" title="Modifier">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="btn-icon btn-danger" 
+                    (click)="onDeleteReservation(reservation.id!)" 
+                    title="Supprimer">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

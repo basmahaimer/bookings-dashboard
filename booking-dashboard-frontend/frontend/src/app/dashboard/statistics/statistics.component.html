@@ -1,0 +1,121 @@
+<div class="statistics-container">
+    <h2>Statistiques d'utilisation</h2>
+    
+    <!-- Loading -->
+    <div *ngIf="isLoading" class="loading">
+        <div class="loading-content">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Chargement des statistiques...</p>
+        </div>
+    </div>
+
+    <!-- Stats content -->
+    <div *ngIf="!isLoading" class="stats-content">
+        <!-- Stats cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="card-header">
+                    <i class="fas fa-calendar-check card-icon"></i>
+                    <h3>Réservations totales</h3>
+                </div>
+                <div class="stat-value">{{ totalStats.reservations }}</div>
+                <div class="card-footer">
+                    <span class="trend up">
+                        <i class="fas fa-arrow-up"></i>
+                        15% ce mois
+                    </span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="card-header">
+                    <i class="fas fa-clock card-icon"></i>
+                    <h3>Heures réservées</h3>
+                </div>
+                <div class="stat-value">{{ totalStats.hours.toFixed(1) }}h</div>
+                <div class="card-footer">
+                    <span class="trend up">
+                        <i class="fas fa-arrow-up"></i>
+                        22% ce mois
+                    </span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="card-header">
+                    <i class="fas fa-user-clock card-icon"></i>
+                    <h3>Durée moyenne</h3>
+                </div>
+                <div class="stat-value">{{ totalStats.avgDuration.toFixed(1) }}h</div>
+                <div class="card-footer">
+                    <span class="trend stable">
+                        <i class="fas fa-minus"></i>
+                        Stable
+                    </span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="card-header">
+                    <i class="fas fa-calendar-star card-icon"></i>
+                    <h3>Jour le plus occupé</h3>
+                </div>
+                <div class="stat-value">{{ getMostBusyDay() }}</div>
+                <div class="card-footer">
+                    <span class="info">
+                        <i class="fas fa-info-circle"></i>
+                        {{ getMostBusyDayCount() }} réservation{{ getMostBusyDayCount() > 1 ? 's' : '' }}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section: Réservations par mois -->
+        <div class="monthly-section">
+            <h3 class="section-title">
+                <i class="fas fa-chart-bar"></i>
+                Réservations par mois
+            </h3>
+            
+            <div class="months-list">
+                <div *ngFor="let month of stats" class="month-item">
+                    <div class="month-info">
+                        <span class="month-name">{{ formatMonth(month.month) }}</span>
+                        <span class="month-year">{{ getMonthYear(month.month) }}</span>
+                    </div>
+                    <div class="month-stats">
+                        <span class="month-reservations">{{ month.total_reservations || 0 }}</span>
+                        <span class="month-hours">{{ (month.total_hours || 0).toFixed(1) }}h</span>
+                    </div>
+                </div>
+                
+                <div *ngIf="stats.length === 0" class="no-monthly-stats">
+                    <i class="fas fa-chart-line"></i>
+                    <p>Aucune donnée mensuelle disponible</p>
+                </div>
+            </div>
+
+            <!-- Résumé mensuel -->
+            <div *ngIf="stats.length > 0" class="month-summary">
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="summary-content">
+                        <h4>Meilleur mois</h4>
+                        <p>{{ getBestMonth() }}</p>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="summary-content">
+                        <h4>Évolution</h4>
+                        <p>{{ getGrowthPercentage() }}% ce trimestre</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

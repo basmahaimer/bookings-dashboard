@@ -1,0 +1,24 @@
+<div class="toast-container" [@slideInOut]="isVisible ? 'in' : 'out'">
+  <div class="toast" [class]="config.type">
+    <div class="toast-content">
+      <div class="toast-icon">
+        <i [class]="getIcon()"></i>
+      </div>
+      <div class="toast-message">
+        <h4>{{ getTitle() }}</h4>
+        <p>{{ config.message }}</p>
+      </div>
+    </div>
+    
+    <div class="toast-actions">
+      <button *ngIf="config.action" 
+              class="toast-action-btn"
+              (click)="onAction()">
+        {{ config.action.label }}
+      </button>
+      <button class="toast-close-btn" (click)="onClose()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
+</div>

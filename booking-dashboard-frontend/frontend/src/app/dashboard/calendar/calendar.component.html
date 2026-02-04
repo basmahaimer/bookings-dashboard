@@ -1,0 +1,79 @@
+<div class="calendar-container">
+    <!-- En-tête avec navigation -->
+    <div class="calendar-header">
+        <h2>Calendrier des réservations</h2>
+        
+        <div class="calendar-controls">
+            <button class="btn-secondary" (click)="prevMonth()">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <h3 id="currentMonth">{{ getCurrentMonth() }}</h3>
+            <button class="btn-secondary" (click)="nextMonth()">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Chargement -->
+    <div *ngIf="isLoading" class="loading">
+        <div class="loading-content">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Chargement du calendrier...</p>
+        </div>
+    </div>
+
+    <!-- Calendrier -->
+    <div *ngIf="!isLoading" class="calendar-wrapper">
+        <!-- Jours de la semaine -->
+        <div class="weekdays">
+            <div class="weekday" *ngFor="let day of weekdays">{{ day }}</div>
+        </div>
+        
+        <!-- Grille des jours -->
+        <div class="calendar-grid">
+            <div *ngFor="let day of calendarDays" 
+                 [class]="getDayClasses(day)"
+                 (click)="!day.isEmpty && showDayDetails(day)">
+                <div class="day-number">{{ day.day || '' }}</div>
+                <div *ngIf="!day.isEmpty && day.reservations.length > 0" class="day-indicator">
+                    <div class="reservation-dot" [style.background]="getStatusColor(day.reservations[0].status)"></div>
+                    <span *ngIf="day.reservations.length > 1" class="reservation-count">
+                        +{{ day.reservations.length - 1 }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Message quand aucune réservation -->
+    <div *ngIf="!isLoading && getTotalReservationsForMonth() === 0" class="no-reservations">
+        <div class="empty-calendar">
+            <i class="fas fa-calendar-plus"></i>
+            <h3>Aucune réservation pour {{ getCurrentMonth() }}</h3>
+            <p>Créez une nouvelle réservation pour commencer</p>
+            <button class="btn-primary">
+                <i class="fas fa-plus"></i> Nouvelle Réservation
+            </button>
+        </div>
+    </div>
+
+    <!-- Statistiques du mois -->
+    <div *ngIf="!isLoading && getTotalReservationsForMonth() > 0" class="month-stats">
+        <div class="stats-summary">
+            <div class="stat-item">
+                <i class="fas fa-calendar-check" style="color: #4cc9f0;"></i>
+                <div class="stat-info">
+                    <span class="stat-value">{{ getTotalReservationsForMonth() }}</span>
+                    <span class="stat-label">Réservations ce mois</span>
+                </div>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-clock" style="color: #f8961e;"></i>
+                <div class="stat-info">
+                    <span class="stat-value">{{ getConfirmedReservationsCount() }}</span>
+                    <span class="stat-label">Confirmées</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

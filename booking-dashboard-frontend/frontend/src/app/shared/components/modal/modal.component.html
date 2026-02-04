@@ -1,0 +1,161 @@
+<div class="modal-overlay" [class.active]="isOpen" (click)="onClose()">
+  <div class="modal" [class]="type" (click)="$event.stopPropagation()">
+    
+    <!-- Header -->
+    <div class="modal-header">
+      <div class="header-content">
+        <i [class]="getIcon()"></i>
+        <h3>{{ getTitle() }}</h3>
+      </div>
+      <button class="close-btn" (click)="onClose()" aria-label="Fermer">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <!-- Body -->
+    <div class="modal-body">
+      
+      <!-- New/Edit Reservation Form -->
+      <div *ngIf="type === 'new-reservation' || type === 'edit-reservation'">
+        <form #reservationForm="ngForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="reservation-title">Titre *</label>
+            <input type="text" 
+                   id="reservation-title"
+                   [(ngModel)]="reservationFormData.title" 
+                   name="title" 
+                   required 
+                   placeholder="Ex: Réunion d'équipe"
+                   aria-label="Titre de la réservation"
+                   autocomplete="off">
+          </div>
+          
+          <div class="form-group">
+            <label for="reservation-description">Description</label>
+            <textarea id="reservation-description"
+                      [(ngModel)]="reservationFormData.description" 
+                      name="description" 
+                      rows="3" 
+                      placeholder="Description de la réservation..."
+                      aria-label="Description de la réservation"></textarea>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="reservation-start-date">Date et heure de début *</label>
+              <input type="datetime-local" 
+                     id="reservation-start-date"
+                     [(ngModel)]="reservationFormData.start_date" 
+                     name="start_date" 
+                     required
+                     aria-label="Date et heure de début">
+            </div>
+            <div class="form-group">
+              <label for="reservation-end-date">Date et heure de fin *</label>
+              <input type="datetime-local" 
+                     id="reservation-end-date"
+                     [(ngModel)]="reservationFormData.end_date" 
+                     name="end_date" 
+                     required
+                     aria-label="Date et heure de fin">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="reservation-status">Statut</label>
+            <select id="reservation-status"
+                    [(ngModel)]="reservationFormData.status" 
+                    name="status"
+                    aria-label="Statut de la réservation">
+              <option value="pending">En attente</option>
+              <option value="confirmed">Confirmée</option>
+              <option value="cancelled">Annulée</option>
+            </select>
+          </div>
+          
+          <div class="modal-footer">
+            <button type="button" class="btn-secondary" (click)="onClose()">
+              Annuler
+            </button>
+            
+            <button type="submit" 
+                    class="btn-primary"
+                    [disabled]="!reservationFormData.title || !reservationFormData.start_date || !reservationFormData.end_date">
+              {{ type === 'new-reservation' ? 'Créer' : 'Enregistrer' }}
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- View Reservation -->
+      <div *ngIf="type === 'view-reservation'" class="reservation-details">
+        <h4>{{ data.title || 'Sans titre' }}</h4>
+        
+        <div class="detail-item">
+          <i class="fas fa-calendar"></i>
+          <div>
+            <label for="view-dates">Dates</label>
+            <p id="view-dates">{{ formatDate(data.start_date) }} → {{ formatDate(data.end_date) }}</p>
+          </div>
+        </div>
+        
+        <div *ngIf="data.description" class="detail-item">
+          <i class="fas fa-file-alt"></i>
+          <div>
+            <label for="view-description">Description</label>
+            <p id="view-description">{{ data.description }}</p>
+          </div>
+        </div>
+        
+        <div class="detail-item">
+          <i class="fas fa-clock"></i>
+          <div>
+            <label for="view-duration">Durée</label>
+            <p id="view-duration">{{ getDuration(data.start_date, data.end_date) }}</p>
+          </div>
+        </div>
+        
+        <div class="detail-item">
+          <i class="fas fa-info-circle"></i>
+          <div>
+            <label for="view-status">Statut</label>
+            <span id="view-status" class="status-badge" [class]="getStatusClass(data.status)">
+              {{ getStatusText(data.status) }}
+            </span>
+          </div>
+        </div>
+        
+        <div class="modal-footer">
+          <button class="btn-secondary" (click)="onClose()">
+            Fermer
+          </button>
+        </div>
+      </div>
+
+      <!-- Confirm Delete -->
+      <div *ngIf="type === 'confirm-delete'" class="confirm-delete">
+        <div class="warning-icon">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <h4>Êtes-vous sûr ?</h4>
+        <p>Cette action supprimera définitivement la réservation. Cette action est irréversible.</p>
+        <div class="reservation-preview" *ngIf="data.title">
+          <strong id="delete-title">{{ data.title }}</strong>
+          <small id="delete-date">{{ formatDate(data.start_date) }}</small>
+        </div>
+        
+        <div class="modal-footer">
+          <button class="btn-secondary" (click)="onClose()">
+            Annuler
+          </button>
+          
+          <button class="btn-danger" (click)="onSubmit()">
+            Supprimer
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

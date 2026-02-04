@@ -1,0 +1,41 @@
+<!-- Copie exactement ce HTML -->
+<div class="auth-container">
+    <div class="auth-box">
+        <h1>📅 Dashboard Réservations</h1>
+        
+        <div class="tabs">
+            <button class="tab" [class.active]="isLoginMode" (click)="onSwitchMode()">
+                Connexion
+            </button>
+            <button class="tab" [class.active]="!isLoginMode" (click)="onSwitchMode()">
+                Inscription
+            </button>
+        </div>
+
+        <form (ngSubmit)="onSubmit()" class="auth-form">
+            <input 
+                type="email" 
+                [(ngModel)]="email" 
+                name="email"
+                placeholder="Email" 
+                required
+                [disabled]="isLoading">
+            
+            <input 
+                type="password" 
+                [(ngModel)]="password" 
+                name="password"
+                placeholder="Mot de passe" 
+                required
+                [disabled]="isLoading">
+            
+            <button type="submit" [disabled]="isLoading">
+                {{ isLoading ? 'Chargement...' : (isLoginMode ? 'Se connecter' : "S'inscrire") }}
+            </button>
+        </form>
+
+        <div *ngIf="errorMessage" class="message error">
+            {{ errorMessage }}
+        </div>
+    </div>
+</div>
