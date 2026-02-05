@@ -309,6 +309,7 @@ Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
 ## 👥 Auteurs
 
 - **Basma HAIMER** - *Développement initial* - [basmahaimer](https://github.com/basmahaimer)
+- **Aya SABRI** - *Développement initial*
 
 ## 🙏 Remerciements
 
