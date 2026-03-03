@@ -37,20 +37,34 @@ Une application web complète de gestion de réservations avec tableau de bord, 
 ## 🏗️ Architecture Technique
 
 ```
-booking-dashboard/
-├── frontend/                 # Application Angular
-│   ├── src/app/
-│   │   ├── components/       # Composants UI
-│   │   │   ├── auth/        # Login/Register
-│   │   │   ├── dashboard/   # Dashboard principal
-│   │   │   ├── calendar/    # Vue calendrier
-│   │   │   ├── reservations/# Liste et modal
-│   │   │   └── stats/       # Statistiques
-│   │   ├── services/        # Services Angular
-│   │   ├── interfaces/      # Types TypeScript
-│   │   ├── guards/          # Guards d'authentification
-│   │   └── interceptors/    # Intercepteurs HTTP
-│   └── src/styles.css       # Styles globaux
+booking-dashboard-frontend/
+├── .angular/
+├── .vscode/
+├── node_modules/
+├── public/
+├── src/
+│   ├── app/
+│   │   ├── auth/
+│   │   ├── dashboard/
+│   │   ├── calendar/
+│   │   ├── reservations/
+│   │   ├── statistics/
+│   │   ├── layout/
+│   │   ├── dashboard.service.ts
+│   │   ├── shared/
+│   │   ├── app.component.ts
+│   │   ├── app.config.ts
+│   │   ├── app.css               # #app.css
+│   │   ├── app.html               # < app.html
+│   │   ├── app.routes.ts          # TS app.routes.ts
+│   │   ├── app.spec.ts            # TS app.spec.ts
+│   │   ├── app.ts                  # TS app.ts
+│   ├── index.html
+│   ├── main.ts
+│   ├── styles.css                  # #styles.css
+├── .editorconfig
+├── .gitignore
+├── angular.json
 │
 ├── routes/                  # API REST Node.js
 │   ├── auth.js             # Authentification
