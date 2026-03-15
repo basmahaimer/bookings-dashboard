@@ -435,7 +435,7 @@ Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
 ## 👥 Auteurs
 
 - **Basma HAIMER** - *Développement full-stack* - [@basmahaimer](https://github.com/basmahaimer)
-- **Aya SABRI** - *Développement full-stack*
+- **Aya SABRI** - *Développement full-stack*  -  [@SabriAYA](https://github.com/SabriAya)
 
 **Master ISI (Ingénierie des Systèmes d'Information)**
 **Année universitaire : 2025/2026**
